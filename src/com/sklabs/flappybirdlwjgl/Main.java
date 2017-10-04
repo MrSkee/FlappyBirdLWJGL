@@ -78,9 +78,30 @@ public class Main implements Runnable {
     
     public void run() {
         init();
+        
+        long lastTime = System.currentTimeMillis();
+        double delta = 0.0;
+        double ns = 1000000000.0 / 60.0;
+        long timer = System.currentTimeMillis();
+        int updates = 0;
+        int frames = 0;
         while (gIsRunning) {
-            update();
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            // Delta will reach 1 60 times per second
+            if (delta >= 1.0) {
+                update();
+                updates++;
+                delta--;
+            }
             render();
+            frames++;
+            if (System.currentTimeMillis() - timer > 1000) {
+                timer += 100;
+                System.out.println(updates + " ups, " + frames + " fps");
+                updates = 0;
+                frames = 0;
+            }
             
             if (glfwWindowShouldClose(gWindow) == true)
                 gIsRunning = false;
@@ -89,9 +110,10 @@ public class Main implements Runnable {
     
     private void update() {
         glfwPollEvents();
-        if (Input.gKeys[GLFW_KEY_SPACE]) {
+        /*if (Input.gKeys[GLFW_KEY_SPACE]) {
             System.out.println("FLAP!");
-        }
+        }*/
+        gLevel.update();
     }
     
     private void render() {

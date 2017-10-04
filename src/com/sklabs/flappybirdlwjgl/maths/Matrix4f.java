@@ -50,9 +50,9 @@ public class Matrix4f {
     
     public static Matrix4f translate(Vec3f pVector) {
         Matrix4f result = identity();
-        result.mElements[0 + 3 * 4] = pVector.x;
-        result.mElements[1 + 3 * 4] = pVector.y;
-        result.mElements[2 + 3 * 4] = pVector.z;
+        result.mElements[0 + 3 * 4] = pVector.mX;
+        result.mElements[1 + 3 * 4] = pVector.mY;
+        result.mElements[2 + 3 * 4] = pVector.mZ;
         return result;
     }
     
