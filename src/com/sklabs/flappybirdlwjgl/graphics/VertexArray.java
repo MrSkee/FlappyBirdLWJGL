@@ -14,6 +14,12 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class VertexArray {
     
+    /*
+    *   mVAO - Vertex Array Object
+    *   mVBO - Vertex Buffer Object
+    *   mIBO - Indices(indexes) Buffer Object
+    *   mTBO - Texture Coordinates Buffer Object
+    */
     private int mVAO, mVBO, mIBO, mTBO;
     private int mCount;
     
@@ -31,7 +37,7 @@ public class VertexArray {
         
         mTBO = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, mTBO);
-        glBufferData(GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(pVertices), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, BufferUtils.createFloatBuffer(pTextureCoordinates), GL_STATIC_DRAW);
         glVertexAttribPointer(Shader.TEXCOORD_ATTRIB, 2, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(Shader.TEXCOORD_ATTRIB);
         

@@ -6,6 +6,7 @@
 package com.sklabs.flappybirdlwjgl.levels;
 
 import com.sklabs.flappybirdlwjgl.graphics.Shader;
+import com.sklabs.flappybirdlwjgl.graphics.Texture;
 import com.sklabs.flappybirdlwjgl.graphics.VertexArray;
 
 /**
@@ -15,6 +16,7 @@ import com.sklabs.flappybirdlwjgl.graphics.VertexArray;
 public class Level {
     
     private VertexArray mBackground;
+    private Texture mBgTexture;
     
     public Level() {
         float[] vertices = new float[] {
@@ -40,11 +42,14 @@ public class Level {
         };
         
         mBackground = new VertexArray(vertices, indices, tcs);
+        mBgTexture = new Texture("res/bg.jpeg");
     }
     
     public void render() {
+        mBgTexture.bind();
         Shader.mBG.enable();
         mBackground.render();
         Shader.mBG.disable();
+        mBgTexture.unbind();
     }
 }

@@ -14,6 +14,7 @@ import org.lwjgl.opengl.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 
 /**
  *
@@ -63,13 +64,14 @@ public class Main implements Runnable {
         GL.createCapabilities();
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glEnable(GL_DEPTH_TEST);
+        glActiveTexture(GL_TEXTURE1);
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
         Shader.loadAll();
         
         // Must bind shader before setting
         Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -1.0f, 1.0f);
         Shader.mBG.setUniformMat4f("pr_matrix", pr_matrix);
-        Shader.mBG.disable();
+        Shader.mBG.setUniform1i("tex", 1);
         
         gLevel = new Level();
     }

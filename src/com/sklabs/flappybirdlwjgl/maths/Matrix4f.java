@@ -77,7 +77,7 @@ public class Matrix4f {
             for (int j = 0; j < 4; j++) {
                 float sum = 0.0f;
                 for (int k = 0; k < 4; k++) {
-                sum += this.mElements[j + k * 4] * pMatrix.mElements[k + i * 4];
+                    sum += this.mElements[j + k * 4] * pMatrix.mElements[k + i * 4];
                 }
                 result.mElements[j + i * 4] = sum;
             }
