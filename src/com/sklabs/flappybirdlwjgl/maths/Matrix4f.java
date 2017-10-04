@@ -40,9 +40,10 @@ public class Matrix4f {
         result.mElements[0 + 0 * 4] = 2.0f / (pRight - pLeft);
         result.mElements[1 + 1 * 4] = 2.0f / (pTop - pBottom);
         result.mElements[2 + 2 * 4] = 2.0f / (pNear - pFar);
-        result.mElements[3 + 3 * 4] = (pLeft + pRight) / (pLeft - pRight);
-        result.mElements[4 + 4 * 4] = (pBottom + pTop) / (pBottom - pTop);
-        result.mElements[5 + 5 * 4] = (pFar + pNear) / (pFar - pNear);        
+        
+        result.mElements[0 + 3 * 4] = (pLeft + pRight) / (pLeft - pRight);
+        result.mElements[1 + 3 * 4] = (pBottom + pTop) / (pBottom - pTop);
+        result.mElements[2 + 3 * 4] = (pFar + pNear) / (pFar - pNear);        
         
         return result;
     }

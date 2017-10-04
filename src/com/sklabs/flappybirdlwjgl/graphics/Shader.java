@@ -21,7 +21,11 @@ public class Shader {
     private final boolean IS_USABLE;
     
     public static final int VERTEX_ATTRIB = 0;
-    public static final int TEXCOORD_ATTRIB = 0;
+    public static final int TEXCOORD_ATTRIB = 1;
+    
+    public static Shader mBG;
+    
+    private boolean mEnabled = false;
     
     private final int mID;
     private Map<String, Integer> mLocationCache = new HashMap<String, Integer>();
@@ -34,6 +38,10 @@ public class Shader {
         } else {
             IS_USABLE = true;
         }
+    }
+    
+    public static void loadAll() {
+        mBG = new Shader("shaders/BG.vert", "shaders/BG.frag");
     }
     
     public int getUniform(String pName) {
@@ -52,32 +60,49 @@ public class Shader {
     }
     
     public void setUniform1i(String pName, int pValue) {
+        if (!mEnabled) {
+            enable();
+        }
         glUniform1i(getUniform(pName), pValue);
     }
     
     public void setUniform1f(String pName, float pValue) {
+        if (!mEnabled) {
+            enable();
+        }
         glUniform1f(getUniform(pName), pValue);
     }
     
     public void setUniform2f(String pName, float pX, float pY) {
+        if (!mEnabled) {
+            enable();
+        }
         glUniform2f(getUniform(pName), pX, pY);
     }
     
     public void setUniform3f(String pName, Vec3f pVector) {
-        glUniform3f(getUniform(pName), pVector.x, pVector.y, pVector.z);
+        if (!mEnabled) {
+            enable();
+        }
+        glUniform3f(getUniform(pName), pVector.mX, pVector.mY, pVector.mZ);
     }
     
     public void setUniformMat4f(String pName, Matrix4f pMatrix) {
+        if (!mEnabled) {
+            enable();
+        }
         glUniformMatrix4fv(getUniform(pName), false, pMatrix.toFloatBuffer());
     }
     
     public void enable() {
         if (IS_USABLE) {
             glUseProgram(mID);
+            mEnabled = true;
         }
     }
     
     public void disable() {
         glUseProgram(0);
+        mEnabled = false;
     }
 }
