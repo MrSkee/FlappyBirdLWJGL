@@ -23,7 +23,7 @@ public class Shader {
     public static final int VERTEX_ATTRIB = 0;
     public static final int TEXCOORD_ATTRIB = 1;
     
-    public static Shader mBG;
+    public static Shader mBG, mBIRD;
     
     private boolean mEnabled = false;
     
@@ -42,6 +42,7 @@ public class Shader {
     
     public static void loadAll() {
         mBG = new Shader("shaders/BG.vert", "shaders/BG.frag");
+        mBIRD = new Shader("shaders/Bird.vert", "shaders/Bird.frag");        
     }
     
     public int getUniform(String pName) {

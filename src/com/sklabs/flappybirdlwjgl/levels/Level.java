@@ -23,6 +23,8 @@ public class Level {
     private int mXScroll = 0;
     private int mMap = 0;
     
+    private Bird mBird;
+    
     public Level() {
         float[] vertices = new float[] {
             -10.0f, -10.0f * 9.0f / 16.0f, 0.0f,
@@ -48,6 +50,8 @@ public class Level {
         
         mBackground = new VertexArray(vertices, indices, tcs);
         mBgTexture = new Texture("res/bg.jpeg");
+        
+        mBird = new Bird();
     }
     
     public void update() {
@@ -55,6 +59,8 @@ public class Level {
         if (-mXScroll % 335 == 0) {
             mMap++;
         }
+        
+        mBird.update();
     }
     
     public void render() {
@@ -68,5 +74,7 @@ public class Level {
         }
         Shader.mBG.disable();
         mBgTexture.unbind();
+        
+        mBird.render();
     }
 }
