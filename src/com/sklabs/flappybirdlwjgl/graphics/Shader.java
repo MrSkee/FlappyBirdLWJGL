@@ -20,8 +20,8 @@ public class Shader {
     
     private final boolean IS_USABLE;
     
-    public static final int VERTEX = 0;
-    public static final int VERTEX = 0;
+    public static final int VERTEX_ATTRIB = 0;
+    public static final int TEXCOORD_ATTRIB = 0;
     
     private final int mID;
     private Map<String, Integer> mLocationCache = new HashMap<String, Integer>();
