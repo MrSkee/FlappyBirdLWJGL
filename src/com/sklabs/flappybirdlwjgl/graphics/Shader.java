@@ -19,7 +19,7 @@ public class Shader {
     public static final int VERTEX_ATTRIB = 0;
     public static final int TEXCOORD_ATTRIB = 1;
     
-    public static Shader mBG, mBIRD, mPIPE;
+    public static Shader mBG, mBIRD, mPIPE, mFADE;
     
     private boolean mEnabled = false;
     
@@ -40,6 +40,7 @@ public class Shader {
         mBG = new Shader("shaders/BG.vert", "shaders/BG.frag");
         mBIRD = new Shader("shaders/Bird.vert", "shaders/Bird.frag");    
         mPIPE = new Shader("shaders/Pipe.vert", "shaders/Pipe.frag");
+        mFADE = new Shader("shaders/Fade.vert", "shaders/Fade.frag");        
     }
     
     public int getUniform(String pName) {

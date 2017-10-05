@@ -23,6 +23,11 @@ public class VertexArray {
     private int mVAO, mVBO, mIBO, mTBO;
     private int mCount;
     
+    public VertexArray(int pCount) {
+        this.mCount = pCount;
+        mVAO = glGenVertexArrays();
+    }
+    
     public VertexArray(float[] pVertices, byte[] pIndices, float[] pTextureCoordinates) {
         mCount = pIndices.length;
         
@@ -52,7 +57,8 @@ public class VertexArray {
     
     public void bind() {
         glBindVertexArray(mVAO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+        if (mIBO > 0)
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
     }
     
     public void unbind() {
@@ -61,7 +67,10 @@ public class VertexArray {
     }
     
     public void draw() {
-        glDrawElements(GL_TRIANGLES, mCount, GL_UNSIGNED_BYTE, 0);
+        if (mIBO > 0)
+            glDrawElements(GL_TRIANGLES, mCount, GL_UNSIGNED_BYTE, 0);
+        else
+            glDrawArrays(GL_TRIANGLES, 0, mCount);
     }
     
     public void render() {

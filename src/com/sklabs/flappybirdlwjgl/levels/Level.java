@@ -18,7 +18,7 @@ import java.util.Random;
  */
 public class Level {
     
-    private VertexArray mBackground;
+    private VertexArray mBackground, mFade;
     private Texture mBgTexture;
     
     private int mXScroll = 0;
@@ -28,10 +28,13 @@ public class Level {
     
     private Pipe[] mPipes = new Pipe[5 * 2];
     private int mIndex = 0;
+    private float OFFSET = 5.0f;
+    private boolean mControl = true;
     
     private Random mRandom = new Random();
     
-    private float OFFSET = 5.0f;
+    private float mTime = 0;
+    
     
     public Level() {
         float[] vertices = new float[] {
@@ -56,6 +59,7 @@ public class Level {
             1, 1
         };
         
+        mFade = new VertexArray(6);
         mBackground = new VertexArray(vertices, indices, tcs);
         mBgTexture = new Texture("res/bg.jpeg");
         
@@ -80,20 +84,25 @@ public class Level {
     }
     
     public void update() {
-        mXScroll--;
-        if (-mXScroll % 335 == 0) {
-            mMap++;
-        }
-        
-        if (-mXScroll > 250 && -mXScroll % 120 == 0) {
-            updatePipes();
+        if (mControl) {
+            mXScroll--;
+            if (-mXScroll % 335 == 0) {
+                mMap++;
+            }
+
+            if (-mXScroll > 250 && -mXScroll % 120 == 0) {
+                updatePipes();
+            }
         }
         
         mBird.update();
         
-        if (collision()) {
-            System.out.println("Collision");
+        if (mControl && collision()) {
+            mBird.fall();
+            mControl = false;
         }
+        
+        mTime += 0.01f;
     }
     
     private void renderPipes() {
@@ -151,5 +160,10 @@ public class Level {
         
         renderPipes();
         mBird.render();
+        
+        Shader.mFADE.enable();
+        Shader.mFADE.setUniform1f("time", mTime);
+        mFade.render();
+        Shader.mFADE.disable();
     }
 }

@@ -73,8 +73,8 @@ public class Bird {
         mRot = mYDelta * 90.0f;
     }
     
-    private void fall() {
-        mYDelta = -0.15f; 
+    public void fall() {
+        mYDelta = 0.15f; 
     }
     
     public void render() {
