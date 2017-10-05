@@ -107,7 +107,8 @@ public class Level {
     
     private void renderPipes() {
         Shader.mPIPE.enable();
-        Shader.mPIPE.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vec3f(mXScroll * 0.05f, 0.0f, 0.0f)));
+        Shader.mPIPE.setUniform2f("bird", 0, mBird.getY());        
+        Shader.mPIPE.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vec3f(mXScroll * 0.05f, 0.0f, 0.0f)));        
         Pipe.getTexture().bind();
         Pipe.getMesh().bind();
         
@@ -149,6 +150,7 @@ public class Level {
     public void render() {
         mBgTexture.bind();
         Shader.mBG.enable();
+        Shader.mBG.setUniform2f("bird", 0, mBird.getY());
         mBackground.bind();
         // Infinite scrolling background
         for (int i = mMap; i < mMap + 4; i++) {
