@@ -25,6 +25,10 @@ public class Level {
     
     private Bird mBird;
     
+    private Pipe[] mPipes = new Pipe[5 * 2];
+    
+    private int mIndex = 0;
+    
     public Level() {
         float[] vertices = new float[] {
             -10.0f, -10.0f * 9.0f / 16.0f, 0.0f,
@@ -52,6 +56,21 @@ public class Level {
         mBgTexture = new Texture("res/bg.jpeg");
         
         mBird = new Bird();
+        
+        createPipes();
+    }
+    
+    private void createPipes() {
+        Pipe.create();
+        for (int i = 0; i < mPipes.length; i += 2) {
+            mPipes[i] = new Pipe(mIndex * 3.0f, 4.0f);
+            mPipes[i + 1] = new Pipe(mPipes[i].getX(), mPipes[i].getY() - 10.0f);
+            mIndex += 2;
+        }
+    }
+    
+    private void updatePipes() {
+        //mPipes[]
     }
     
     public void update() {
@@ -61,6 +80,20 @@ public class Level {
         }
         
         mBird.update();
+    }
+    
+    private void renderPipes() {
+        Shader.mPIPE.enable();
+        Shader.mPIPE.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vec3f(mXScroll * 0.03f, 0.0f, 0.0f)));
+        Pipe.getTexture().bind();
+        Pipe.getMesh().bind();
+        
+        for (int i = 0; i < mPipes.length; i++) {
+            Shader.mPIPE.setUniformMat4f("ml_matrix", mPipes[i].getModelMatrix());
+            Pipe.getMesh().draw();
+        }
+        Pipe.getMesh().unbind();
+        Pipe.getTexture().unbind();
     }
     
     public void render() {
@@ -75,6 +108,7 @@ public class Level {
         Shader.mBG.disable();
         mBgTexture.unbind();
         
+        renderPipes();
         mBird.render();
     }
 }

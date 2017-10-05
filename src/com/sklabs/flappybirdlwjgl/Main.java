@@ -15,6 +15,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.WGLEXTSwapControl.wglSwapIntervalEXT;
 
 /**
  *
@@ -76,13 +77,18 @@ public class Main implements Runnable {
         Shader.mBIRD.setUniformMat4f("pr_matrix", pr_matrix);
         Shader.mBIRD.setUniform1i("tex", 1);
         
+        Shader.mPIPE.setUniformMat4f("pr_matrix", pr_matrix);
+        Shader.mPIPE.setUniform1i("tex", 1);
+        
         gLevel = new Level();
+        
+        wglSwapIntervalEXT(0);
     }
     
     public void run() {
         init();
         
-        long lastTime = System.currentTimeMillis();
+        long lastTime = System.nanoTime();
         double delta = 0.0;
         double ns = 1000000000.0 / 60.0;
         long timer = System.currentTimeMillis();
@@ -91,6 +97,7 @@ public class Main implements Runnable {
         while (gIsRunning) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
+            lastTime = now;
             // Delta will reach 1 60 times per second
             if (delta >= 1.0) {
                 update();
@@ -100,7 +107,7 @@ public class Main implements Runnable {
             render();
             frames++;
             if (System.currentTimeMillis() - timer > 1000) {
-                timer += 100;
+                timer += 1000;
                 System.out.println(updates + " ups, " + frames + " fps");
                 updates = 0;
                 frames = 0;

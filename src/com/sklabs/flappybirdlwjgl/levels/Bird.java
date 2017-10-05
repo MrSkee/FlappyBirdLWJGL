@@ -11,7 +11,7 @@ import com.sklabs.flappybirdlwjgl.graphics.VertexArray;
 import com.sklabs.flappybirdlwjgl.input.Input;
 import com.sklabs.flappybirdlwjgl.maths.Matrix4f;
 import com.sklabs.flappybirdlwjgl.maths.Vec3f;
-import org.lwjgl.glfw.GLFW;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Bird {
     
@@ -20,8 +20,8 @@ public class Bird {
     private Texture mTexture;
     
     private Vec3f mPosition = new Vec3f();
-    private float pRot;
-    private float pYDelta = 0.0f;
+    private float mRot;
+    private float mYDelta = 0.0f;
     
     public Bird() {
         float[] vertices = new float[] {
@@ -50,10 +50,7 @@ public class Bird {
     }
     
     public void update() {
-        /*if (Input.gKeys[GLFW.GLFW_KEY_SPACE]) {
-            mPosition.mY++;
-        }*/
-        if (Input.gKeys[GLFW.GLFW_KEY_UP]) {
+        /*if (Input.gKeys[GLFW.GLFW_KEY_UP]) {
             mPosition.mY += 0.1f;
         }
         if (Input.gKeys[GLFW.GLFW_KEY_DOWN]) {
@@ -64,12 +61,25 @@ public class Bird {
         }
         if (Input.gKeys[GLFW.GLFW_KEY_RIGHT]) {
             mPosition.mX += 0.1f;
+        }*/
+        mPosition.mY += mYDelta;
+        if (Input.isKeyDown(GLFW_KEY_SPACE)) {
+            mYDelta = 0.15f;
         }
+        else {
+            mYDelta -= 0.01f;
+        }
+        
+        mRot = mYDelta * 90.0f;
+    }
+    
+    private void fall() {
+        mYDelta = -0.15f; 
     }
     
     public void render() {
         Shader.mBIRD.enable();
-        Shader.mBIRD.setUniformMat4f("ml_matrix", Matrix4f.translate(mPosition));
+        Shader.mBIRD.setUniformMat4f("ml_matrix", Matrix4f.translate(mPosition).multiply(Matrix4f.rotate(mRot)));
         mTexture.bind();
         mMesh.render();
         Shader.mBIRD.disable();
