@@ -8,9 +8,11 @@ package com.sklabs.flappybirdlwjgl.levels;
 import com.sklabs.flappybirdlwjgl.graphics.Shader;
 import com.sklabs.flappybirdlwjgl.graphics.Texture;
 import com.sklabs.flappybirdlwjgl.graphics.VertexArray;
+import com.sklabs.flappybirdlwjgl.input.Input;
 import com.sklabs.flappybirdlwjgl.maths.Matrix4f;
 import com.sklabs.flappybirdlwjgl.maths.Vec3f;
 import java.util.Random;
+import org.lwjgl.glfw.GLFW;
 
 /**
  *
@@ -29,7 +31,7 @@ public class Level {
     private Pipe[] mPipes = new Pipe[5 * 2];
     private int mIndex = 0;
     private float OFFSET = 5.0f;
-    private boolean mControl = true;
+    private boolean mControl = true, mReset = false;
     
     private Random mRandom = new Random();
     
@@ -102,6 +104,10 @@ public class Level {
             mControl = false;
         }
         
+        if (!mControl && Input.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
+            mReset = true;
+        }
+        
         mTime += 0.01f;
     }
     
@@ -145,6 +151,10 @@ public class Level {
             }
         }
         return false;
+    }
+    
+    public boolean isGameOver() {
+        return mReset;
     }
     
     public void render() {

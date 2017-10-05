@@ -132,6 +132,9 @@ public class Main implements Runnable {
             System.out.println("FLAP!");
         }*/
         gLevel.update();
+        if (gLevel.isGameOver()) {
+            gLevel = new Level();
+        }
     }
     
     private void render() {
