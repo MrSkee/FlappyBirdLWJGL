@@ -8,11 +8,10 @@ in DATA {
 } fs_in;
 
 uniform sampler2D tex;
+uniform int top;
 
 void main() {
-    //color = vec4(0.4, 0.3, 0.8, 1.0);
-    color = texture(tex, fs_in.tc);
-    // Handles white background color w = alpha channel
+    color = texture(tex, top == 1 ? vec2(fs_in.tc.x, 1.0 - fs_in.tc.y) : fs_in.tc);
     if (color.w < 1.0)
         discard;
 }

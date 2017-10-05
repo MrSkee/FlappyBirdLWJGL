@@ -25,10 +25,10 @@ public class Bird {
     
     public Bird() {
         float[] vertices = new float[] {
-            -SIZE / 2.0f, -SIZE / 2.0f, 0.1f,
-            -SIZE / 2.0f,  SIZE / 2.0f, 0.1f,
-             SIZE / 2.0f,  SIZE / 2.0f, 0.1f,
-             SIZE / 2.0f, -SIZE / 2.0f, 0.1f,            
+            -SIZE / 2.0f, -SIZE / 2.0f, 0.2f,
+            -SIZE / 2.0f,  SIZE / 2.0f, 0.2f,
+             SIZE / 2.0f,  SIZE / 2.0f, 0.2f,
+             SIZE / 2.0f, -SIZE / 2.0f, 0.2f,            
         };
         // First triangle has 0 1 2
         // Second triangle has 2 3 0

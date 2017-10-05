@@ -12,10 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import static org.lwjgl.opengl.GL20.*;
 
-/**
- *
- * @author kees18
- */
 public class Shader {
     
     private final boolean IS_USABLE;

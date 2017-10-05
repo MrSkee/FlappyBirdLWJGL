@@ -10,6 +10,7 @@ import com.sklabs.flappybirdlwjgl.graphics.Texture;
 import com.sklabs.flappybirdlwjgl.graphics.VertexArray;
 import com.sklabs.flappybirdlwjgl.maths.Matrix4f;
 import com.sklabs.flappybirdlwjgl.maths.Vec3f;
+import java.util.Random;
 
 /**
  *
@@ -26,8 +27,9 @@ public class Level {
     private Bird mBird;
     
     private Pipe[] mPipes = new Pipe[5 * 2];
-    
     private int mIndex = 0;
+    
+    private Random mRandom = new Random();
     
     public Level() {
         float[] vertices = new float[] {
@@ -63,8 +65,8 @@ public class Level {
     private void createPipes() {
         Pipe.create();
         for (int i = 0; i < mPipes.length; i += 2) {
-            mPipes[i] = new Pipe(mIndex * 3.0f, 4.0f);
-            mPipes[i + 1] = new Pipe(mPipes[i].getX(), mPipes[i].getY() - 10.0f);
+            mPipes[i] = new Pipe(mIndex * 3.0f, mRandom.nextFloat() * 4.0f);
+            mPipes[i + 1] = new Pipe(mPipes[i].getX(), mPipes[i].getY() - 11.0f);
             mIndex += 2;
         }
     }
@@ -90,6 +92,7 @@ public class Level {
         
         for (int i = 0; i < mPipes.length; i++) {
             Shader.mPIPE.setUniformMat4f("ml_matrix", mPipes[i].getModelMatrix());
+            Shader.mPIPE.setUniform1i("top", (i % 2 == 0) ? 1 : 0);
             Pipe.getMesh().draw();
         }
         Pipe.getMesh().unbind();
