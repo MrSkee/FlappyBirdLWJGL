@@ -84,4 +84,12 @@ public class Bird {
         mMesh.render();
         Shader.mBIRD.disable();
     }
+    
+    public float getY() {
+        return mPosition.mY;
+    }
+    
+    public float getSize() {
+        return SIZE;
+    }
 }

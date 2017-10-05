@@ -90,6 +90,10 @@ public class Level {
         }
         
         mBird.update();
+        
+        if (collision()) {
+            System.out.println("Collision");
+        }
     }
     
     private void renderPipes() {
@@ -105,6 +109,32 @@ public class Level {
         }
         Pipe.getMesh().unbind();
         Pipe.getTexture().unbind();
+    }
+    
+    private boolean collision() {
+        for (int i = 0; i < mPipes.length; i++) {
+            float bx = -mXScroll * 0.05f;
+            float by = mBird.getY();
+            float px = mPipes[i].getX();
+            float py = mPipes[i].getY();
+            
+            float bx0 = bx - mBird.getSize() / 2.0f;
+            float bx1 = bx + mBird.getSize() / 2.0f;           
+            float by0 = by - mBird.getSize() / 2.0f;           
+            float by1 = by + mBird.getSize() / 2.0f;
+            
+            float px0 = px;
+            float px1 = px + Pipe.getWidth();
+            float py0 = py;
+            float py1 = py + Pipe.getHeight();
+            
+            if (bx1 > px0 && bx0 < px1) {
+                if (by1 > py0 && by0 < py1) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     public void render() {
