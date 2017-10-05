@@ -31,6 +31,8 @@ public class Level {
     
     private Random mRandom = new Random();
     
+    private float OFFSET = 5.0f;
+    
     public Level() {
         float[] vertices = new float[] {
             -10.0f, -10.0f * 9.0f / 16.0f, 0.0f,
@@ -65,14 +67,16 @@ public class Level {
     private void createPipes() {
         Pipe.create();
         for (int i = 0; i < mPipes.length; i += 2) {
-            mPipes[i] = new Pipe(mIndex * 3.0f, mRandom.nextFloat() * 4.0f);
-            mPipes[i + 1] = new Pipe(mPipes[i].getX(), mPipes[i].getY() - 11.0f);
+            mPipes[i] = new Pipe(OFFSET + mIndex * 3.0f, mRandom.nextFloat() * 4.0f);
+            mPipes[i + 1] = new Pipe(mPipes[i].getX(), mPipes[i].getY() - 11.5f);
             mIndex += 2;
         }
     }
     
     private void updatePipes() {
-        //mPipes[]
+        mPipes[mIndex % 10] = new Pipe(OFFSET + mIndex * 3.0f, mRandom.nextFloat() * 4.0f);
+        mPipes[(mIndex + 1) % 10] = new Pipe(mPipes[mIndex % 10].getX(), mPipes[mIndex % 10].getY() - 11.5f);
+        mIndex += 2;
     }
     
     public void update() {
@@ -81,12 +85,16 @@ public class Level {
             mMap++;
         }
         
+        if (-mXScroll > 250 && -mXScroll % 120 == 0) {
+            updatePipes();
+        }
+        
         mBird.update();
     }
     
     private void renderPipes() {
         Shader.mPIPE.enable();
-        Shader.mPIPE.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vec3f(mXScroll * 0.03f, 0.0f, 0.0f)));
+        Shader.mPIPE.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vec3f(mXScroll * 0.05f, 0.0f, 0.0f)));
         Pipe.getTexture().bind();
         Pipe.getMesh().bind();
         
